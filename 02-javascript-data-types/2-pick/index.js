@@ -6,7 +6,7 @@
  */
 export const pick = (obj, ...fields) => {
   const objKeys = Object.keys(obj);
-  let result = {};
+  const result = {};
 
   for (let key of fields) {
     if (objKeys.includes(key)) {

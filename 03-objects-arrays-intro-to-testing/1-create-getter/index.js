@@ -10,7 +10,7 @@ export function createGetter(path) {
     if (!Object.entries(obj).length) {
       return undefined;
     }
-    return _path.reduce(function (accumulator, item, index, array) {
+    return _path.reduce(function (accumulator, item) {
       if (!accumulator) {
         return accumulator;
       }

@@ -8,7 +8,7 @@ export function createGetter(path) {
 
   return function (obj) {
     if (!Object.entries(obj).length) {
-      return undefined;
+      return;
     }
     return _path.reduce(function (accumulator, item) {
       if (!accumulator) {

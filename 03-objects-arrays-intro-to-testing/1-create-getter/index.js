@@ -4,18 +4,23 @@
  * @returns {function} - function-getter which allow get value from object by set path
  */
 export function createGetter(path) {
-  const _path = path.split('.');
+  const keys = path.split('.');
 
   return function (obj) {
     if (!Object.entries(obj).length) {
       return;
     }
-    return _path.reduce(function (accumulator, item) {
-      if (!accumulator) {
-        return accumulator;
-      }
 
-      return accumulator[item];
-    }, obj);
+    let currentValue = obj;
+
+    for (let key of keys) {
+      if (currentValue && currentValue[key] !== undefined) {
+        currentValue = currentValue[key];
+      } else {
+        return undefined;
+      }
+    }
+
+    return currentValue;
   };
 }

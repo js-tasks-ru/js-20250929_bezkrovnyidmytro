@@ -4,5 +4,10 @@
  * @returns {object | undefined} - returns new object or undefined if nothing did't pass
  */
 export function invertObj(obj) {
-
+  if (typeof obj !== 'object') {
+    return undefined;
+  }
+  const entries = Object.entries(obj);
+  entries.forEach(entry => entry.reverse());
+  return Object.fromEntries(entries);
 }

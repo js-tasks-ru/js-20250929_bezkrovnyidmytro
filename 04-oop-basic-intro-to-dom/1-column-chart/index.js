@@ -84,7 +84,8 @@ export default class ColumnChart {
     return el;
   }
 
-  createCharts() {
+  createCharts(data) {
+    const _data = data || this.data;
     const container = document.createElement('div');
     container.classList.add('column-chart__container');
 
@@ -92,8 +93,8 @@ export default class ColumnChart {
     chart.setAttribute('data-element', 'body');
     chart.classList.add('column-chart__chart');
 
-    if (this.data) {
-      this.data.forEach(item => {
+    if (_data) {
+      _data.forEach(item => {
         const column = document.createElement('div');
         column.style.setProperty('--value', item.value);
         column.setAttribute('data-tooltip', item.percent);
@@ -123,13 +124,20 @@ export default class ColumnChart {
       return;
     }
 
-    this.data = data;
-    this.element = this.createElement();
+    const newData = this.getColumnProps(data);
+    const newCharts = this.createCharts(newData);
+
+    this.replaceCharts(newCharts);
+
     return this;
   }
 
+  replaceCharts(replace) {
+    this.element.querySelector('.column-chart__container').replaceWith(replace);
+  }
+
   destroy() {
-    this.element.remove();
+    this.remove();
   }
 
   remove() {

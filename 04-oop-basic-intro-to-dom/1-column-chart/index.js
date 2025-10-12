@@ -135,4 +135,8 @@ export default class ColumnChart {
   remove() {
     this.element.remove();
   }
+
+  getElement() {
+    return this.element;
+  }
 }

@@ -15,7 +15,7 @@ export default class ColumnChart {
     link = '',
     formatHeading = data => data
   } = {}) {
-    this.data = this.getColumnProps(data);
+    this.data = data;
     this.label = label;
     this.value = value;
     this.link = link;
@@ -85,7 +85,7 @@ export default class ColumnChart {
   }
 
   createCharts(data) {
-    const _data = data || this.data;
+    const _data = this.getColumnProps(data || this.data);
     const container = document.createElement('div');
     container.classList.add('column-chart__container');
 
@@ -124,12 +124,8 @@ export default class ColumnChart {
       return;
     }
 
-    const newData = this.getColumnProps(data);
-    const newCharts = this.createCharts(newData);
-
+    const newCharts = this.createCharts(data);
     this.replaceCharts(newCharts);
-
-    return this;
   }
 
   replaceCharts(replace) {

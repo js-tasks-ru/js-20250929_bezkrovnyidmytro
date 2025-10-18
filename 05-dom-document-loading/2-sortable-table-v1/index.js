@@ -25,7 +25,7 @@ export default class SortableTable {
 
   sort(sortBy, sortOrder) {
     const sortOrderMultiplier = sortOrder === 'asc' ? 1 : -1;
-    const sortItems = Array.from(this.element.querySelectorAll('.sortable-table__body > a.sortable-table__row'));
+    const sortItems = Array.from(this.subElements.body.querySelectorAll('a.sortable-table__row'));
 
     sortItems.sort((item1, item2) => {
       const value1 = this.getItemValue(sortBy, item1);

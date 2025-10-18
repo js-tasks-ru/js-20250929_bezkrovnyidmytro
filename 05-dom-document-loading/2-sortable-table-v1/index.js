@@ -44,14 +44,14 @@ export default class SortableTable {
       return 0;
     });
 
-    this.subElements.body = sortItems;
-
     const tableBody = this.element.querySelector('div[data-element="body"]');
     tableBody.innerHTML = '';
 
     sortItems.forEach(item => {
       tableBody.appendChild(item);
     });
+
+    this.subElements.body = tableBody;
   }
 
   createElement() {

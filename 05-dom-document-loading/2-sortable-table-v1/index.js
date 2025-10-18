@@ -113,7 +113,6 @@ export default class SortableTable {
     el.appendChild(title);
 
     if (item.sortable) {
-      el.setAttribute('data-order', 'desc');
       el.setAttribute('data-sortable', item.sortable);
       el.appendChild(this.arrowElement);
     }

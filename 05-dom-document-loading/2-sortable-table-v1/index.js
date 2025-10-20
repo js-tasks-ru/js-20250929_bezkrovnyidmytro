@@ -218,8 +218,12 @@ export default class SortableTable {
     return el;
   }
 
-  destroy() {
+  remove() {
     this.element.remove();
+  }
+
+  destroy() {
+    this.remove();
   }
 }
 

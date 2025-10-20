@@ -63,5 +63,6 @@ export default class NotificationMessage {
   destroy() {
     NotificationMessage.instances.forEach(element => element.remove());
     NotificationMessage.instances = [];
+    this.remove();
   }
 }

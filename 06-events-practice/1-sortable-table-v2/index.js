@@ -43,10 +43,10 @@ export default class SortableTable extends defaultExport {
 
   getSortableHeaderElements() {
     const sortableHeaderItems = Array.from(
-      this.subElements.header.querySelectorAll(
-        '[data-element="header"] [data-sortable="true"]'
-      )
+      this.subElements.header.querySelectorAll('[data-sortable="true"]')
     );
+
+    console.log(sortableHeaderItems);
 
     return sortableHeaderItems && sortableHeaderItems.length
       ? sortableHeaderItems

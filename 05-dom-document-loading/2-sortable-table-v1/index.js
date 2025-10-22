@@ -12,9 +12,13 @@ export default class SortableTable {
     this.element = this.createElement();
   }
 
+  getElement() {
+    return this.element;
+  }
+
   getItemValue(sortBy, element) {
     const el = element.querySelector(`div[data-key="${sortBy}"]`);
-    const elContent = el ? el.textContent.trim() : '';
+    const elContent = el ? el.textContent.trim() : "";
 
     if (!isNaN(elContent)) {
       return parseFloat(elContent);
@@ -24,15 +28,20 @@ export default class SortableTable {
   }
 
   sort(sortBy, sortOrder) {
-    const sortOrderMultiplier = sortOrder === 'asc' ? 1 : -1;
-    const sortItems = Array.from(this.subElements.body.querySelectorAll('a.sortable-table__row'));
+    const sortOrderMultiplier = sortOrder === "asc" ? 1 : -1;
+    const sortItems = Array.from(
+      this.subElements.body.querySelectorAll("a.sortable-table__row")
+    );
 
     sortItems.sort((item1, item2) => {
       const value1 = this.getItemValue(sortBy, item1);
       const value2 = this.getItemValue(sortBy, item2);
 
       if (typeof value1 === "string" && typeof value2 === "string") {
-        return sortOrderMultiplier * value1.localeCompare(value2, ['ru', 'en'], {caseFirst: "upper"});
+        return (
+          sortOrderMultiplier *
+          value1.localeCompare(value2, ["ru", "en"], { caseFirst: "upper" })
+        );
       }
 
       if (value1 < value2) {
@@ -45,9 +54,9 @@ export default class SortableTable {
     });
 
     const tableBody = this.element.querySelector('div[data-element="body"]');
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = "";
 
-    sortItems.forEach(item => {
+    sortItems.forEach((item) => {
       tableBody.appendChild(item);
     });
 
@@ -77,24 +86,24 @@ export default class SortableTable {
   }
 
   createTableContainer() {
-    const container = document.createElement('div');
-    container.setAttribute('data-element', 'productsContainer');
-    container.classList.add('products-list__container');
+    const container = document.createElement("div");
+    container.setAttribute("data-element", "productsContainer");
+    container.classList.add("products-list__container");
 
-    const innerWrapper = document.createElement('div');
-    innerWrapper.classList.add('sortable-table');
+    const innerWrapper = document.createElement("div");
+    innerWrapper.classList.add("sortable-table");
 
     container.appendChild(innerWrapper);
     return container;
   }
 
   createTableHeader() {
-    const header = document.createElement('div');
-    header.setAttribute('data-element', 'header');
-    header.classList.add('sortable-table__header');
-    header.classList.add('sortable-table__row');
+    const header = document.createElement("div");
+    header.setAttribute("data-element", "header");
+    header.classList.add("sortable-table__header");
+    header.classList.add("sortable-table__row");
 
-    this.headerConfig.forEach(item => {
+    this.headerConfig.forEach((item) => {
       const itemEl = this.createHeaderItemElement(item);
       header.appendChild(itemEl);
     });
@@ -103,17 +112,17 @@ export default class SortableTable {
   }
 
   createHeaderItemElement(item) {
-    const el = document.createElement('div');
-    el.setAttribute('data-id', item.id);
-    el.classList.add('sortable-table__cell');
+    const el = document.createElement("div");
+    el.setAttribute("data-id", item.id);
+    el.classList.add("sortable-table__cell");
 
-    const title = document.createElement('span');
+    const title = document.createElement("span");
     title.textContent = item.title;
 
     el.appendChild(title);
 
     if (item.sortable) {
-      el.setAttribute('data-sortable', item.sortable);
+      el.setAttribute("data-sortable", item.sortable);
       el.appendChild(this.arrowElement);
     }
 
@@ -121,12 +130,12 @@ export default class SortableTable {
   }
 
   createHeaderSortArrowElement() {
-    const el = document.createElement('span');
-    el.setAttribute('data-element', 'arrow');
-    el.classList.add('sortable-table__sort-arrow');
+    const el = document.createElement("span");
+    el.setAttribute("data-element", "arrow");
+    el.classList.add("sortable-table__sort-arrow");
 
-    const innerEl = document.createElement('span');
-    innerEl.classList.add('sort-arrow');
+    const innerEl = document.createElement("span");
+    innerEl.classList.add("sort-arrow");
 
     el.append(innerEl);
 
@@ -134,11 +143,11 @@ export default class SortableTable {
   }
 
   createTableBody() {
-    const tableBody = document.createElement('div');
-    tableBody.setAttribute('data-element', 'body');
-    tableBody.classList.add('sortable-table__body');
+    const tableBody = document.createElement("div");
+    tableBody.setAttribute("data-element", "body");
+    tableBody.classList.add("sortable-table__body");
 
-    this.data.forEach(item => {
+    this.data.forEach((item) => {
       const itemEl = this.createTableBodyElement(item);
       tableBody.appendChild(itemEl);
     });
@@ -147,17 +156,18 @@ export default class SortableTable {
   }
 
   createTableBodyElement(item) {
-    const el = document.createElement('a');
-    el.classList.add('sortable-table__row');
-    el.href = '/products/' + item.id;
+    const el = document.createElement("a");
+    el.classList.add("sortable-table__row");
+    el.href = "/products/" + item.id;
 
-    this.headerConfig.forEach(headerItem => {
+    this.headerConfig.forEach((headerItem) => {
       const key = headerItem.id;
 
       if (item.hasOwnProperty(key)) {
-        const productEl = key === 'images'
-          ? this.createProductItemImage(item)
-          : this.createProductItemText(item, key);
+        const productEl =
+          key === "images"
+            ? this.createProductItemImage(item)
+            : this.createProductItemText(item, key);
         el.appendChild(productEl);
       }
     });
@@ -166,13 +176,13 @@ export default class SortableTable {
   }
 
   createProductItemImage(item) {
-    const el = document.createElement('div');
-    el.classList.add('sortable-table__cell');
+    const el = document.createElement("div");
+    el.classList.add("sortable-table__cell");
 
-    const image = document.createElement('img');
-    image.classList.add('sortable-table-image');
-    image.setAttribute('alt', item.title);
-    image.setAttribute('src', 'https://i.imgur.com/MCdw6u2.jpg');
+    const image = document.createElement("img");
+    image.classList.add("sortable-table-image");
+    image.setAttribute("alt", item.title);
+    image.setAttribute("src", "https://i.imgur.com/MCdw6u2.jpg");
 
     el.appendChild(image);
 
@@ -180,27 +190,27 @@ export default class SortableTable {
   }
 
   createProductItemText(item, key) {
-    const el = document.createElement('div');
-    el.classList.add('sortable-table__cell');
-    el.setAttribute('data-key', key);
+    const el = document.createElement("div");
+    el.classList.add("sortable-table__cell");
+    el.setAttribute("data-key", key);
     el.textContent = item[key];
     return el;
   }
 
   createTableEmptyBody() {
-    const emptyPlaceholderDiv = document.createElement('div');
-    emptyPlaceholderDiv.setAttribute('data-element', 'emptyPlaceholder');
-    emptyPlaceholderDiv.classList.add('sortable-table__empty-placeholder');
+    const emptyPlaceholderDiv = document.createElement("div");
+    emptyPlaceholderDiv.setAttribute("data-element", "emptyPlaceholder");
+    emptyPlaceholderDiv.classList.add("sortable-table__empty-placeholder");
 
-    const innerDiv = document.createElement('div');
+    const innerDiv = document.createElement("div");
 
-    const p = document.createElement('p');
-    p.textContent = 'No products satisfy your filter criteria';
+    const p = document.createElement("p");
+    p.textContent = "No products satisfy your filter criteria";
 
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.classList.add('button-primary-outline');
-    button.textContent = 'Reset all filters';
+    const button = document.createElement("button");
+    button.type = "button";
+    button.classList.add("button-primary-outline");
+    button.textContent = "Reset all filters";
 
     innerDiv.appendChild(p);
     innerDiv.appendChild(button);
@@ -212,9 +222,9 @@ export default class SortableTable {
 
   createTableLoader() {
     const el = document.createElement("div");
-    el.setAttribute('data-element', 'loading');
-    el.classList.add('loading-line');
-    el.classList.add('sortable-table__loading-line');
+    el.setAttribute("data-element", "loading");
+    el.classList.add("loading-line");
+    el.classList.add("sortable-table__loading-line");
     return el;
   }
 
@@ -226,4 +236,3 @@ export default class SortableTable {
     this.remove();
   }
 }
-

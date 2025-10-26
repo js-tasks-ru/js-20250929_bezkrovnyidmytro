@@ -1,6 +1,6 @@
-import defaultExport from "../../05-dom-document-loading/2-sortable-table-v1/index.js";
+import SortableTableV1 from "../../05-dom-document-loading/2-sortable-table-v1/index.js";
 
-export default class SortableTable extends defaultExport {
+export default class SortableTable extends SortableTableV1 {
   sorted = null;
   sortableHeaderItems = null;
   isSortLocally = true;

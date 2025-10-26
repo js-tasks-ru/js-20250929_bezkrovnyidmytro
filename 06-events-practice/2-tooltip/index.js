@@ -23,6 +23,7 @@ class Tooltip {
 
   onDocumentPointermove = event => {
     if (event.target.dataset.tooltip) {
+      this.showElement();
       this.element.style.left = event.pageX + this.DEFAULT_TOOLTIP_CSS_OFFSET + 'px';
       this.element.style.top = event.pageY + this.DEFAULT_TOOLTIP_CSS_OFFSET + 'px';
     }
@@ -30,7 +31,7 @@ class Tooltip {
 
   onDocumentPointerout = event => {
     if (!event.target.dataset.tooltip) {
-      this.element.style.visibility = 'hidden';
+      this.remove();
     }
   };
 
@@ -54,7 +55,6 @@ class Tooltip {
   initialize() {
     if (!this.element) {
       this.element = this.createElement();
-      document.body.appendChild(this.element);
     }
 
     this.addEventListeners();
@@ -69,8 +69,13 @@ class Tooltip {
   }
 
   render(tooltipText = '') {
-    this.element.style.visibility = 'visible';
     this.element.textContent = tooltipText;
+    document.body.appendChild(this.element);
+    this.showElement();
+  }
+
+  showElement() {
+    this.element.style.visibility = 'visible';
   }
 
   remove() {

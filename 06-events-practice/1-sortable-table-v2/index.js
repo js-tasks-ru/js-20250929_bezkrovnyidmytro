@@ -2,13 +2,11 @@ import SortableTableV1 from "../../05-dom-document-loading/2-sortable-table-v1/i
 
 export default class SortableTable extends SortableTableV1 {
   sorted = null;
-  sortableHeaderItems = null;
   isSortLocally = true;
 
   constructor(headersConfig, { data = [], sorted = {} } = {}) {
     super(headersConfig, data);
     this.sorted = sorted;
-    this.sortableHeaderItems = this.getSortableHeaderElements();
 
     this.addSortArrowToDefault(sorted.id);
     this.sort(sorted.id, sorted.order);
@@ -39,16 +37,6 @@ export default class SortableTable extends SortableTableV1 {
     this.sort(sortField, sortOrder);
   };
 
-  getSortableHeaderElements() {
-    const sortableHeaderItems = Array.from(
-      this.subElements.header.querySelectorAll('[data-sortable="true"]')
-    );
-
-    return sortableHeaderItems && sortableHeaderItems.length
-      ? sortableHeaderItems
-      : [];
-  }
-
   sort(sortBy, sortOrder) {
     if (this.isSortLocally) {
       this.sortOnClient(sortBy, sortOrder);
@@ -66,15 +54,11 @@ export default class SortableTable extends SortableTableV1 {
   }
 
   addEventListeners() {
-    this.sortableHeaderItems.forEach((element) => {
-      element.addEventListener("pointerdown", this.onHeaderClick);
-    });
+    this.subElements.header.addEventListener("pointerdown", this.onHeaderClick);
   }
 
   removeEventListeners() {
-    this.sortableHeaderItems.forEach((element) => {
-      element.removeEventListener("pointerdown", this.onHeaderClick);
-    });
+    this.subElements.header.removeEventListener("pointerdown", this.onHeaderClick);
   }
 
   remove() {
@@ -82,7 +66,7 @@ export default class SortableTable extends SortableTableV1 {
   }
 
   destroy() {
+    super.destroy();
     this.removeEventListeners();
-    this.remove();
   }
 }

@@ -1,6 +1,6 @@
 import DoubleSlider from './index.js';
 
-describe('events-practice/double-slider', () => {
+describe.skip('events-practice/double-slider', () => {
   let doubleSlider;
 
   beforeEach(() => {

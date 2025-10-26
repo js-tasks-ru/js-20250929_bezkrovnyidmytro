@@ -1,7 +1,6 @@
 class Tooltip {
   static instance = null;
   element = null;
-  elements = [];
   DEFAULT_TOOLTIP_CSS_OFFSET = 5;
 
   constructor() {
@@ -12,50 +11,39 @@ class Tooltip {
     Tooltip.instance = this;
   }
 
-  onTextPointerover = () => {
-    this.element.style.visibility = 'visible';
-  };
-
-  onTextPointermove = event => {
+  onDocumentPointerover = event => {
     const tooltipText = event.target.dataset.tooltip;
 
     if (!tooltipText) {
       return;
     }
 
-    this.element.textContent = tooltipText;
-    this.element.style.left = event.pageX + this.DEFAULT_TOOLTIP_CSS_OFFSET + 'px';
-    this.element.style.top = event.pageY + this.DEFAULT_TOOLTIP_CSS_OFFSET + 'px';
+    this.render(tooltipText);
   };
 
-  onTextPointerout = () => {
-    this.element.style.visibility = 'hidden';
-  };
-
-  getTooltipElements() {
-    const elements = document.querySelectorAll('[data-tooltip]');
-
-    if (!elements || !elements.length) {
-      return [];
+  onDocumentPointermove = event => {
+    if (event.target.dataset.tooltip) {
+      this.element.style.left = event.pageX + this.DEFAULT_TOOLTIP_CSS_OFFSET + 'px';
+      this.element.style.top = event.pageY + this.DEFAULT_TOOLTIP_CSS_OFFSET + 'px';
     }
+  };
 
-    return elements;
-  }
+  onDocumentPointerout = event => {
+    if (!event.target.dataset.tooltip) {
+      this.element.style.visibility = 'hidden';
+    }
+  };
 
   addEventListeners() {
-    this.elements.forEach(el => {
-      el.addEventListener('pointerover', this.onTextPointerover);
-      el.addEventListener('pointermove', this.onTextPointermove);
-      el.addEventListener('pointerout', this.onTextPointerout);
-    });
+    document.addEventListener('pointerover', this.onDocumentPointerover);
+    document.addEventListener('pointermove', this.onDocumentPointermove);
+    document.addEventListener('pointerout', this.onDocumentPointerout);
   }
 
   removeEventListeners() {
-    this.elements.forEach(el => {
-      el.removeEventListener('pointerover', this.onTextPointerover);
-      el.removeEventListener('pointermove', this.onTextPointermove);
-      el.removeEventListener('pointerout', this.onTextPointerout);
-    });
+    document.removeEventListener('pointerover', this.onDocumentPointerover);
+    document.removeEventListener('pointermove', this.onDocumentPointermove);
+    document.removeEventListener('pointerout', this.onDocumentPointerout);
   }
 
   destroy() {
@@ -69,11 +57,7 @@ class Tooltip {
       document.body.appendChild(this.element);
     }
 
-    this.elements = this.getTooltipElements();
-
-    if (this.elements && this.elements.length) {
-      this.addEventListeners();
-    }
+    this.addEventListeners();
   }
 
   createElement() {

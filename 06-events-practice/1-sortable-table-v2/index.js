@@ -7,7 +7,6 @@ export default class SortableTable extends defaultExport {
 
   constructor(headersConfig, { data = [], sorted = {} } = {}) {
     super(headersConfig, data);
-    this.element = super.getElement();
     this.sorted = sorted;
     this.sortableHeaderItems = this.getSortableHeaderElements();
 
@@ -24,29 +23,26 @@ export default class SortableTable extends defaultExport {
   }
 
   onHeaderClick = (event) => {
-    const parent = event.target.parentNode;
+    const cellElement = event.target.closest('.sortable-table__cell');
 
-    parent.appendChild(this.arrowElement);
-
-    const sortBy = parent.dataset.id;
-    const sortOrder = parent.dataset.sortOrder;
-
-    if (!sortOrder) {
-      parent.dataset.sortOrder = "asc";
-    } else {
-      parent.dataset.sortOrder =
-        parent.dataset.sortOrder === "asc" ? "desc" : "asc";
+    if (!cellElement || cellElement.dataset.sortable !== "true") {
+      return;
     }
 
-    this.sort(sortBy, sortOrder);
+    const sortField = cellElement.dataset.id;
+    const sortOrder = cellElement.dataset.order === 'desc' ? 'asc' : 'desc';
+
+    cellElement.dataset.order = sortOrder;
+
+    cellElement.appendChild(this.arrowElement);
+
+    this.sort(sortField, sortOrder);
   };
 
   getSortableHeaderElements() {
     const sortableHeaderItems = Array.from(
       this.subElements.header.querySelectorAll('[data-sortable="true"]')
     );
-
-    console.log(sortableHeaderItems);
 
     return sortableHeaderItems && sortableHeaderItems.length
       ? sortableHeaderItems

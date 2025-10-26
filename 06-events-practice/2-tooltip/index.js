@@ -12,7 +12,7 @@ class Tooltip {
     Tooltip.instance = this;
   }
 
-  onTextPointerover = (event) => {
+  onTextPointerover = () => {
     this.element.style.visibility = 'visible';
   };
 
